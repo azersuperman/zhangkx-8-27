@@ -1,8 +1,8 @@
 <template>
   <div>
     <h2>商品清单如下</h2>
-    <div v-for="(obj, index) in shopData" :key="index">
-      {{ obj.shopName }} -- {{ obj.price }}元/份
+    <div v-for="(item, index) in shopData" :key="index">
+      {{ item.shopName }} -- {{ item.price }}元/份
     </div>
     <p>请选择购买数量:</p>
     <ShopFood
@@ -10,8 +10,12 @@
       :key="index"
       :index="index"
       :obj="item"
-      @comSum="fn"
+      @add="addFn"
+      @red="redFn"
     ></ShopFood>
+    <br />
+    <br />
+    <span>{{ sumNum }}</span>
   </div>
 </template>
 
@@ -47,10 +51,20 @@ export default {
       ],
     };
   },
-  mothods: {
-    fn(index, num) {
-      console.log(1);
-      // this.shopData[index].count += a;
+  methods: {
+    addFn(index) {
+      this.shopData[index].count++;
+    },
+    redFn(index) {
+      this.shopData[index].count !== 0 ? this.shopData[index].count-- : 0;
+    },
+  },
+  computed: {
+    sumNum() {
+      return this.shopData.reduce(
+        (sum, frist) => (sum += frist.price * frist.count),
+        0
+      );
     },
   },
 };

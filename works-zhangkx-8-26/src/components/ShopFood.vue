@@ -3,7 +3,7 @@
     <span>{{ obj.shopName }}</span>
     <button @click="addNum(index)">+</button>
     <span>{{ obj.count }}</span>
-    <button>-</button>
+    <button @click="redNum">-</button>
   </div>
 </template>
 
@@ -11,8 +11,11 @@
 export default {
   props: ["obj", "index"],
   methods: {
-    addNum(index) {
-      this.$emit("comSum", index, 1);
+    addNum() {
+      this.$emit("add", this.index);
+    },
+    redNum() {
+      this.$emit("red", this.index);
     },
   },
 };
